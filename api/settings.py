@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'example'
+    'spotify_app'
 ]
 
 MIDDLEWARE = [
@@ -76,8 +76,18 @@ WSGI_APPLICATION = 'api.wsgi.app'
 # Note: Django modules for using databases are not support in serverless
 # environments like Vercel. You can use a database over HTTP, hosted elsewhere.
 
-DATABASES = {}
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',  # or a specific path if you prefer
+    }
+}
 
+
+SPOTIFY_CLIENT_ID='30820122439c46ceae16b4c4fb510488'
+SPOTIFY_CLIENT_SECRET='f879d8e0f64647eab46f0b241a1450d5'
+SPOTIFY_REDIRECT_URI='http://127.0.0.1:8000/callback/'
+SPOTIFY_SCOPE = 'user-read-private user-read-email playlist-modify-public playlist-modify-private'
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
