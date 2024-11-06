@@ -10,4 +10,5 @@ urlpatterns = [
     path('callback/', views.spotify_callback, name='spotify_callback'),
     path('re-auth/', views.reauthenticate, name="reauthenticate"),
     path('search_track/', views.search_track, name="search_track"),
+    path('get_features/', views.get_several_features, name="get_several_features"),
 ]

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Send POST Request to get Features</title>
+</head>
+<body>
+    <h2>Get Spotify Track Features</h2>
+    <form id="spotifyForm" method="POST" action="http://127.0.0.1:8000/get_features/">
+        <!-- Remove CSRF token input, since we are exempting it from the view -->
+        
+        <label for="track_ids">Track IDs (comma separated):</label>
+        <input type="text" id="track_ids" name="track_ids" required>
+        <br><br>
+        
+        <button type="submit">Get Features</button>
+    </form>
+
+    <script>
+        // Make sure CSRF token is set if you are using Django
+        // This ensures the form works even if CSRF protection is enabled.
+        document.getElementById('spotifyForm').onsubmit = function(event) {
+            event.preventDefault();  // Prevent the default form submission
+
+            const trackIds = document.getElementById('track_ids').value;
+            const accessToken = '{{ access_token }}';  // Get the access token passed from Django view
+
+            fetch('http://127.0.0.1:8000/get_features/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + accessToken, // Use the access token from the context
+                },
+                body: JSON.stringify({
+                    track_ids: trackIds
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Response:', data);
+                alert('Features fetched successfully!');
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error fetching features');
+            });
+        };
+    </script>
+</body>
+</html>
